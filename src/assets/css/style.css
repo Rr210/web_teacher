@@ -1,0 +1,86 @@
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td {
+  margin: 0;
+  padding: 0;
+}
+
+address, cite, dfn, em, var {
+  font-style: normal;
+}
+
+code, kbd, pre, samp {
+  font-family: couriernew, courier, monospace;
+}
+
+small {
+  font-size: 12px;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+sup {
+  vertical-align: text-top;
+}
+
+sub {
+  vertical-align: text-bottom;
+}
+
+legend {
+  color: #000;
+}
+
+img {
+  border: 0;
+}
+
+button, input, select, textarea {
+  font-size: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  padding: 10px;
+  background-color: rgb(255, 253, 253);
+}
+
+.el-card {
+  box-shadow: 0 0 2px rgb(0, 0, 0, .2) !important;
+}
+
+.el-cascader {
+  margin: 10px 0;
+}
+
+.el-form-item {
+  margin-bottom: 10px;
+}
+/* 走马灯 */
+.el-carousel__arrow{
+  width: 25px;
+  height: 25px;
+  top: 52%;
+}
+.el-form-item__content{
+  line-height: 36px;
+}
+
+.el-progress-bar{
+  height: 3px;
+}
+.el-progress-bar__outer{
+  height: 100% !important;
+}
