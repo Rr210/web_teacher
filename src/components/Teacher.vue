@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 22:04:59
+ * @LastEditTime: 2021-10-21 22:34:50
  * @LastEditors: Harry
 -->
 <template>
@@ -170,6 +170,7 @@ export default {
 }
 .wrapper {
   touch-action: pan-y !important;
+  height: 100%;
 }
 
 </style>

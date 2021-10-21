@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 22:15:59
+ * @LastEditTime: 2021-10-21 22:36:48
  * @LastEditors: Harry
 -->
 <template>
@@ -27,8 +27,8 @@
         <div v-if="isSelectedClass">
           <el-form-item prop="teacher_lists" v-model="formData.teacher_lists">
             <h3>
-              <span style="color: red">*</span>开始评分<span
-                class="remind_w">(共{{ 9 * teacher_lists.length }}道,左滑切换题目)</span
+              <span style="color: red">*</span>开始评分<span class="remind_w"
+                >(共{{ 9 * teacher_lists.length }}道,左滑切换题目)</span
               >
             </h3>
             <Teacher
@@ -167,8 +167,11 @@ export default {
         result: this.formData.teacher_lists,
       };
       // http://localhost:3002/api/
-      const { data: res } = await this.$http.post(SUBMIT_POST, data);
-      if (res.code == "1") {
+      const { data: res } = await this.$http
+        .post(SUBMIT_POST, data)
+        .then((res) => res)
+        .catch((err) => err);
+      if (res && res.code == "1") {
         this.$message.success(res.message);
         let token = {
           time: new Date().getTime(),
@@ -176,6 +179,8 @@ export default {
         };
         localStorage.setItem("token", JSON.stringify(token));
         this.$emit("layout", { istoken: false });
+      }else{
+        this.$message.error("提交错误,请联系管理员修复")
       }
     },
     // 获取唯一id
