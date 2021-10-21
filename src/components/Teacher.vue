@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 10:48:57
+ * @LastEditTime: 2021-10-21 13:27:27
  * @LastEditors: Harry
 -->
 <template>
@@ -36,7 +36,7 @@
     >
       <el-carousel-item v-for="(item, index) in title_lists" :key="item.title">
         <span class="title_w">{{ index + 1 + "." + item.title }}</span>
-        <Radio :tindex="index" :tid="teacher_id"></Radio>
+        <Radio @options_t="getOption" :tindex="index" :tid="teacher_id"></Radio>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -78,15 +78,26 @@ export default {
         { color: "#6f7ad3", percentage: 100 },
       ],
       radio: "",
+      newarr: [],
     };
   },
+  created() {
+    this.$on("options_t", this.getOption);
+  },
+  mounted() {
+    this.newarr = new Array(9).fill(0);
+  },
   methods: {
-    getIndex(e) {
-      this.percentage = ((100 / this.title_lists.length) * (e + 1)).toFixed(0);
+    getIndex(e) {},
+    getOption(e) {
+      const { tid, tindex, option } = e;
+      this.newarr[tindex] = option;
+      let len = this.newarr.filter((v) => v !== 0).length;
+      this.percentage = ((100 / this.title_lists.length) * len).toFixed(0);
       if (this.percentage > 100) {
         this.percentage = 100;
       }
-      if (this.percentage < 22) {
+      if (this.percentage < 11) {
         this.percentage = 0;
       }
     },

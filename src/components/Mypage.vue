@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 11:40:13
+ * @LastEditTime: 2021-10-21 13:16:47
  * @LastEditors: Harry
 -->
 <template>
@@ -67,12 +67,17 @@ export default {
         value: "label",
       },
       teacher_lists: [],
+      class_name: "",
       // 题目列表
       title_lists: [],
       rules: {
         class_id: [
           { required: true, message: "请选择年级/班级", trigger: "change" },
         ],
+      },
+      result_options: {
+        class_name: "",
+        result: [],
       },
     };
   },
@@ -87,7 +92,13 @@ export default {
   methods: {
     // 监听用户点击选项事件
     handleOption(e) {
-      console.log(e);
+      // console.log(e);
+      const { tid, tindex, option } = e;
+      // this.result_options["class_name"] = this.class_name;
+      // let arr = new Array(9);
+      // arr[tindex] = option;
+      // console.log(arr);
+      // console.log(this.result_options);
     },
     // 请求数据
     async getClassList() {
@@ -98,6 +109,7 @@ export default {
     },
     handleChange(e) {
       let class_name = e[1];
+      this.class_name = class_name;
       if (e) {
         this.getTeacher(class_name);
       }

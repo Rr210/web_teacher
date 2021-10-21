@@ -4,15 +4,15 @@
  * @Date: 2021-10-20 20:48:47
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 11:36:44
+ * @LastEditTime: 2021-10-21 13:10:29
  * @LastEditors: Harry
 -->
 <template>
   <div class="options" style="text-algin: center">
     <el-radio-group v-model="radio" @change="getOption">
-      <el-radio :label="0">满意</el-radio>
-      <el-radio :label="1">基本满意</el-radio>
-      <el-radio :label="2">一般满意</el-radio>
+      <el-radio :label="1">满意</el-radio>
+      <el-radio :label="2">基本满意</el-radio>
+      <el-radio :label="3">一般满意</el-radio>
     </el-radio-group>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
       radio: "",
     };
   },
-  emits: [],
+  emits: ['options_t'],
   methods: {
     getOption(e) {
       let data = {
@@ -43,7 +43,7 @@ export default {
         tindex:this.tindex,
         option: e,
       };
-      this.$bus.emit("options_t", data);
+      this.$emit("options_t", data);
     },
   },
   beforeDestroy(e) {
