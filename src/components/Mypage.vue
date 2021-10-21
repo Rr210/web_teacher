@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 13:16:47
+ * @LastEditTime: 2021-10-21 14:58:46
  * @LastEditors: Harry
 -->
 <template>
@@ -32,6 +32,7 @@
               :teacher_id="item.teacher_id"
               :class_name="item.class_name"
               :title_lists="title_lists"
+              @optionresult="handleOption"
             ></Teacher>
           </el-form-item>
         </div>
@@ -83,7 +84,7 @@ export default {
   },
   created() {
     //创建后监听
-    this.$bus.on("options_t", this.handleOption);
+    this.$on("optionresult", this.handleOption);
   },
   mounted() {
     this.getClassList();
@@ -93,7 +94,8 @@ export default {
     // 监听用户点击选项事件
     handleOption(e) {
       // console.log(e);
-      const { tid, tindex, option } = e;
+      // const { tid, tindex, option } = e;
+      console.log(e);
       // this.result_options["class_name"] = this.class_name;
       // let arr = new Array(9);
       // arr[tindex] = option;
@@ -110,9 +112,8 @@ export default {
     handleChange(e) {
       let class_name = e[1];
       this.class_name = class_name;
-      if (e) {
-        this.getTeacher(class_name);
-      }
+      this.isSelectedClass = false
+      if (e) return this.getTeacher(class_name)
     },
     // 提交表单
     onSubmit(ref) {
@@ -150,9 +151,10 @@ export default {
       this.isSelectedClass = true;
       if (res) loading.close();
     },
-    beforeDestroy() {
+    beforeDestroy(e) {
       // 最好在组件销毁前取消监听
-      this.$bus.off("options_t", this.handleOption);
+      // console.log(e);
+      this.$off("optionresult", this.handleOption);
     },
   },
 };

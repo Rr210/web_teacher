@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 20:48:47
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 13:10:29
+ * @LastEditTime: 2021-10-21 14:35:41
  * @LastEditors: Harry
 -->
 <template>
@@ -12,7 +12,7 @@
     <el-radio-group v-model="radio" @change="getOption">
       <el-radio :label="1">满意</el-radio>
       <el-radio :label="2">基本满意</el-radio>
-      <el-radio :label="3">一般满意</el-radio>
+      <el-radio :label="3">不满意</el-radio>
     </el-radio-group>
   </div>
 </template>
@@ -35,6 +35,7 @@ export default {
       radio: "",
     };
   },
+  mounted(){},
   emits: ['options_t'],
   methods: {
     getOption(e) {
@@ -46,9 +47,9 @@ export default {
       this.$emit("options_t", data);
     },
   },
-  beforeDestroy(e) {
-    console.log(e);
-  },
+  beforeUpdate(){
+    // this.radio = ''
+  }
 };
 </script>
 

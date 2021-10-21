@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 13:27:27
+ * @LastEditTime: 2021-10-21 14:56:42
  * @LastEditors: Harry
 -->
 <template>
@@ -81,18 +81,27 @@ export default {
       newarr: [],
     };
   },
+  emits: ["optionresult"],
   created() {
     this.$on("options_t", this.getOption);
   },
   mounted() {
     this.newarr = new Array(9).fill(0);
   },
+  beforeUpdate() {},
   methods: {
     getIndex(e) {},
     getOption(e) {
       const { tid, tindex, option } = e;
       this.newarr[tindex] = option;
       let len = this.newarr.filter((v) => v !== 0).length;
+      if (len == this.newarr.length) {
+        let data = {
+          teacher_id: tid,
+          result_options: this.newarr.join(""),
+        };
+        this.$emit("optionresult", data);
+      }
       this.percentage = ((100 / this.title_lists.length) * len).toFixed(0);
       if (this.percentage > 100) {
         this.percentage = 100;
