@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 16:35:00
+ * @LastEditTime: 2021-10-21 19:43:31
  * @LastEditors: Harry
 -->
 <template>
@@ -46,15 +46,17 @@
           >点击提交</el-button
         >
       </el-form>
+    <Foot></Foot>
     </el-card>
   </div>
 </template>
 
 <script>
 import Teacher from "./Teacher.vue";
+import Foot from "./Foot.vue";
 export default {
   name: "Mypage",
-  components: { Teacher },
+  components: { Teacher, Foot },
   data() {
     return {
       isDisabled: false,
@@ -89,6 +91,7 @@ export default {
   mounted() {
     this.getClassList();
     this.getTitle();
+    console.log({ time: new Date().getTime(), message: this.guid() });
   },
   methods: {
     // 自定义判断规则
@@ -134,14 +137,50 @@ export default {
     // 提交表单
     onSubmit(ref) {
       // console.log(ref);
-      this.$refs[ref].validate((valid) => {
+      this.$refs[ref].validate(async (valid) => {
         if (valid) {
-          alert("submit!");
+          const res = await this.$confirm("确认提交评分, 是否继续?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          })
+            .then((res) => res)
+            .catch((err) => err);
+          if (res === "confirm") {
+            this.FormDataSubmit();
+          }
         } else {
           console.log("error submit!!");
           return false;
         }
       });
+    },
+    // 表单数据的提交，数据处理
+    async FormDataSubmit() {
+      let data = {
+        class_name: this.formData.class_id[1],
+        result: this.formData.teacher_lists,
+      };
+      const { data: res } = await this.$http.post("/", data);
+      if (res.code == "1") {
+        this.$message.success(res.message);
+        let token = {
+          time: new Date().getTime(),
+          message: this.guid(),
+        };
+        localStorage.setItem("token", token);
+      }
+    },
+    // 获取唯一id
+    guid() {
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+        /[xy]/g,
+        function (c) {
+          var r = (Math.random() * 16) | 0,
+            v = c == "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        }
+      );
     },
     // 题目获取
     async getTitle() {
@@ -162,7 +201,7 @@ export default {
       const { data: res } = await this.$http.get(
         `data_json/${class_name}.json`
       );
-      console.log(res);
+      // console.log(res);
       this.teacher_lists = res.data;
       this.isSelectedClass = true;
       if (res) loading.close();

@@ -92,3 +92,11 @@ body {
 .el-cascader-node__postfix {
   right: 25px !important;
 }
+
+.el-message-box{
+  position: fixed;
+  width: 340px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}

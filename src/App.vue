@@ -3,7 +3,16 @@
     <div v-if="isToken">
       <Mypage></Mypage>
     </div>
-    <div v-else>您已提交成功！！</div>
+    <div v-else>
+      <h3 style="text-align: center; padding: 20px">
+        山西中医药大学2021-2022学生评教
+      </h3>
+      <div class="success_w">
+        <el-empty description="您已提交成功，请勿重复提交！！"></el-empty>
+        <el-card>{{ token.time | timeChange }}</el-card>
+        <el-button @click="clearI" type="primary">清除缓冲</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,17 +23,49 @@ export default {
   data() {
     return {
       isToken: true,
+      token: {},
     };
   },
   components: { Mypage },
-  created() {
+  mounted() {
     let token = localStorage.getItem("token");
-    if (token) {
+    let newtime = new Date().getTime();
+    let sub = Math.abs(newtime - JSON.parse(token).time);
+    // 缓冲时间30天
+    if (token && sub < 2629800000) {
       this.isToken = false;
+      // console.log(token.time);
+      this.token = JSON.parse(token);
+    } else {
+      this.clearI()
+      this.token = true;
     }
     this.initPage();
   },
+  filters: {
+    timeChange(time) {
+      let date = new Date(time); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      let Y = date.getFullYear() + "-";
+      let M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      let D = date.getDate() + " ";
+      let h = date.getHours() + ":";
+      let m =
+        date.getMinutes() < 10
+          ? "0" + date.getMinutes() + ":"
+          : date.getMinutes() + ":";
+      let s =
+        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      return Y + M + D + h + m + s;
+    },
+  },
   methods: {
+    clearI() {
+      localStorage.clear();
+      this.isToken = true;
+    },
     initPage() {
       const h = this.$createElement;
       this.$notify({
@@ -35,12 +76,20 @@ export default {
           "同学们:你们好，欢迎你使用“山西中医药大学学生评教系统”，学生评教旨在从学生的角度了解教师教学质量情况，学生评教采用无记名的方式，请如实对你的代课教师进行评价。谢谢合作!"
         ),
         offset: 200,
-        duration: 10000,
+        duration: 8000,
       });
     },
+    success_w() {},
   },
 };
 </script>
 
 <style lang="less">
+.success_w {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ccc;
+}
 </style>
