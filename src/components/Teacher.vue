@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 14:56:42
+ * @LastEditTime: 2021-10-21 22:04:59
  * @LastEditors: Harry
 -->
 <template>
@@ -25,18 +25,30 @@
         :stroke-width="3"
       ></el-progress>
     </div>
+    <!-- @change="getIndex" -->
     <el-carousel
+      ref="carousel"
       :autoplay="false"
-      arrow="always"
+      arrow="never"
       height="150px"
       indicator-position="none"
       :initial-index="0"
-      @change="getIndex"
       :loop="false"
     >
       <el-carousel-item v-for="(item, index) in title_lists" :key="item.title">
-        <span class="title_w">{{ index + 1 + "." + item.title }}</span>
-        <Radio @options_t="getOption" :tindex="index" :tid="teacher_id"></Radio>
+        <v-touch
+          :swipe-options="{ direction: 'horizontal' }"
+          @swipeleft="swiperleft(index)"
+          @swiperight="swiperright(index)"
+          class="wrapper"
+        >
+          <span class="title_w">{{ index + 1 + "." + item.title }}</span>
+          <Radio
+            @options_t="getOption"
+            :tindex="index"
+            :tid="teacher_id"
+          ></Radio>
+        </v-touch>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -110,6 +122,18 @@ export default {
         this.percentage = 0;
       }
     },
+    //设置滑动切换轮播图
+    swiperleft: function (index) {
+      //上一页
+      this.$refs.carousel.next();
+      this.$refs.carousel.setActiveItem(index + 1);
+    },
+    swiperright: function (index) {
+      //下一页
+      this.$refs.carousel.prev();
+      //设置幻灯片的索引
+      this.$refs.carousel.setActiveItem(index - 1);
+    },
   },
 };
 </script>
@@ -144,4 +168,8 @@ export default {
   font-weight: 550;
   padding-right: 20px;
 }
+.wrapper {
+  touch-action: pan-y !important;
+}
+
 </style>

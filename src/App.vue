@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <div v-if="isToken">
-      <Mypage></Mypage>
+      <Mypage @layout="getIstoken"></Mypage>
     </div>
     <div v-else>
       <h3 style="text-align: center; padding: 20px">
         山西中医药大学2021-2022学生评教
       </h3>
       <div class="success_w">
-        <el-empty description="您已提交成功，请勿重复提交！！"></el-empty>
+        <el-empty :image-size="212" description="您已提交成功，请勿重复提交！！"></el-empty>
         <el-card>{{ token.time | timeChange }}</el-card>
-        <el-button @click="clearI" type="primary">清除缓冲</el-button>
+        <!-- <el-button @click="clearI" type="primary">清除缓冲</el-button> -->
       </div>
     </div>
   </div>
@@ -27,19 +27,11 @@ export default {
     };
   },
   components: { Mypage },
+  created() {
+    this.$on("layout", this.getIstoken);
+  },
   mounted() {
-    let token = localStorage.getItem("token");
-    let newtime = new Date().getTime();
-    let sub = Math.abs(newtime - JSON.parse(token).time);
-    // 缓冲时间30天
-    if (token && sub < 2629800000) {
-      this.isToken = false;
-      // console.log(token.time);
-      this.token = JSON.parse(token);
-    } else {
-      this.clearI()
-      this.token = true;
-    }
+    this.getTimeCache()
     this.initPage();
   },
   filters: {
@@ -62,6 +54,25 @@ export default {
     },
   },
   methods: {
+    getTimeCache() {
+      let token = localStorage.getItem("token");
+      let newtime = new Date().getTime();
+      // 缓冲时间30天
+        let sub = token && Math.abs(newtime - JSON.parse(token).time);
+      if (token && sub < 2629800000) {
+        this.isToken = false;
+        // console.log(token.time);
+        this.token = JSON.parse(token);
+      } else {
+        this.clearI();
+        this.token = true;
+      }
+    },
+    // 卸载页面
+    getIstoken(e) {
+      this.isToken = e.isToken;
+      this.getTimeCache()
+    },
     clearI() {
       localStorage.clear();
       this.isToken = true;

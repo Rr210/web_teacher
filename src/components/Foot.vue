@@ -4,13 +4,13 @@
  * @Date: 2021-10-21 18:53:45
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 19:45:11
+ * @LastEditTime: 2021-10-21 22:07:30
  * @LastEditors: Harry
 -->
 <template>
   <div class="foot">
     <div class="foot_i">©山西中医药大学高评中心</div>
-    <div class="foot_i">开发者：高海瑞,邱强</div>
+    <div class="foot_i">开发者:高海瑞,邱强</div>
   </div>
 </template>
 <script>

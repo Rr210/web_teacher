@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 19:43:31
+ * @LastEditTime: 2021-10-21 22:15:59
  * @LastEditors: Harry
 -->
 <template>
@@ -26,7 +26,11 @@
         </el-form-item>
         <div v-if="isSelectedClass">
           <el-form-item prop="teacher_lists" v-model="formData.teacher_lists">
-            <h3><span style="color: red">*</span>开始评分</h3>
+            <h3>
+              <span style="color: red">*</span>开始评分<span
+                class="remind_w">(共{{ 9 * teacher_lists.length }}道,左滑切换题目)</span
+              >
+            </h3>
             <Teacher
               v-for="item in teacher_lists"
               :key="item.teacher"
@@ -46,14 +50,16 @@
           >点击提交</el-button
         >
       </el-form>
-    <Foot></Foot>
+      <Foot></Foot>
     </el-card>
   </div>
 </template>
 
 <script>
+import urlLink from "../assets/config";
 import Teacher from "./Teacher.vue";
 import Foot from "./Foot.vue";
+let { CLASS_LINK, SUBMIT_POST, TITLE_LINK, TEACHER_LINK } = urlLink;
 export default {
   name: "Mypage",
   components: { Teacher, Foot },
@@ -84,6 +90,7 @@ export default {
       },
     };
   },
+  emits: ["layout"],
   created() {
     //创建后监听
     this.$on("optionresult", this.handleOption);
@@ -91,7 +98,7 @@ export default {
   mounted() {
     this.getClassList();
     this.getTitle();
-    console.log({ time: new Date().getTime(), message: this.guid() });
+    // console.log({ time: new Date().getTime(), message: this.guid() });
   },
   methods: {
     // 自定义判断规则
@@ -124,9 +131,7 @@ export default {
     },
     // 请求数据
     async getClassList() {
-      const { data: res } = await this.$http.get(
-        "https://cdn.jsdelivr.net/gh/Rr210/image@master/hexo/api/data_10.json"
-      );
+      const { data: res } = await this.$http.get(CLASS_LINK);
       this.options = res;
     },
     handleChange(e) {
@@ -161,14 +166,16 @@ export default {
         class_name: this.formData.class_id[1],
         result: this.formData.teacher_lists,
       };
-      const { data: res } = await this.$http.post("/", data);
+      // http://localhost:3002/api/
+      const { data: res } = await this.$http.post(SUBMIT_POST, data);
       if (res.code == "1") {
         this.$message.success(res.message);
         let token = {
           time: new Date().getTime(),
           message: this.guid(),
         };
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", JSON.stringify(token));
+        this.$emit("layout", { istoken: false });
       }
     },
     // 获取唯一id
@@ -184,9 +191,7 @@ export default {
     },
     // 题目获取
     async getTitle() {
-      const { data: res } = await this.$http.get(
-        "https://cdn.jsdelivr.net/gh/Rr210/image@master/hexo/api/data_00.json"
-      );
+      const { data: res } = await this.$http.get(TITLE_LINK);
       this.title_lists = res;
       // console.log(res);
     },
@@ -199,7 +204,7 @@ export default {
         background: "rgba(0, 0, 0, 0.7)",
       });
       const { data: res } = await this.$http.get(
-        `data_json/${class_name}.json`
+        `${TEACHER_LINK + class_name}.json`
       );
       // console.log(res);
       this.teacher_lists = res.data;
@@ -219,4 +224,8 @@ export default {
 /* a{
   color: #004946;
 } */
+.remind_w {
+  font-size: 13px;
+  color: red;
+}
 </style>
