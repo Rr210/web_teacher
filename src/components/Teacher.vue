@@ -4,16 +4,27 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-20 22:03:03
+ * @LastEditTime: 2021-10-21 10:48:57
  * @LastEditors: Harry
 -->
 <template>
   <div class="teacher_wrap">
-    <div class="teacher_t">{{ teacher_name + class_name }}</div>
-    <el-progress
+    <div class="teacher_t">
+      <span class="t_n">{{ teacher_name }}</span>
+      <span>{{ class_name }}</span>
+    </div>
+    <!-- <el-progress
       :percentage="parseFloat(percentage)"
       :color="customColors"
-    ></el-progress>
+    ></el-progress> -->
+    <div class="progress_w">
+      <el-progress
+        :width="38"
+        type="circle"
+        :percentage="parseFloat(percentage)"
+        :stroke-width="3"
+      ></el-progress>
+    </div>
     <el-carousel
       :autoplay="false"
       arrow="always"
@@ -25,7 +36,7 @@
     >
       <el-carousel-item v-for="(item, index) in title_lists" :key="item.title">
         <span class="title_w">{{ index + 1 + "." + item.title }}</span>
-        <Radio></Radio>
+        <Radio :tindex="index" :tid="teacher_id"></Radio>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -38,6 +49,10 @@ export default {
   components: { Radio },
   props: {
     teacher_name: {
+      type: String,
+      default: "",
+    },
+    teacher_id: {
       type: String,
       default: "",
     },
@@ -82,22 +97,31 @@ export default {
 <style lang="less" scoped>
 .teacher_wrap {
   border-bottom: 1px solid #ccc;
-}
-.el-radio-group {
-  padding: 20px 0;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  position: relative;
+  .progress_w {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
 }
 .title_w {
   padding: 5px 0;
   font-weight: 550;
-  font-size: 16px;
+  // font-size: 16px;
 }
 .teacher_t {
+  background-color: rgb(248, 248, 248);
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin: 5px 0;
   word-break: keep-all; /* 不换行 */
   white-space: nowrap; /* 不换行 */
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.t_n {
+  font-size: 16px;
+  font-weight: 550;
+  padding-right: 20px;
 }
 </style>

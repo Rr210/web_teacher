@@ -68,19 +68,27 @@ body {
 .el-form-item {
   margin-bottom: 10px;
 }
+
 /* 走马灯 */
-.el-carousel__arrow{
+
+.el-carousel__arrow {
   width: 25px;
   height: 25px;
   top: 52%;
 }
-.el-form-item__content{
+
+.el-form-item__content {
   line-height: 36px;
 }
 
-.el-progress-bar{
+.el-progress-bar {
   height: 3px;
 }
-.el-progress-bar__outer{
+
+.el-progress-bar__outer {
   height: 100% !important;
+}
+
+.el-cascader-node__postfix {
+  right: 25px !important;
 }
