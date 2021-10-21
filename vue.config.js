@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 21:46:45
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-20 21:46:45
+ * @LastEditTime: 2021-10-21 16:17:38
  * @LastEditors: Harry
  */
  module.exports = {
@@ -15,7 +15,7 @@
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = '山西中医药大学-教师评测'
+        args[0].title = '山西中医药大学2021-2022学生评教'
         return args
       })
   }
