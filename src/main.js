@@ -3,7 +3,7 @@ import App from './App.vue'
 // import Element from 'element-ui';
 // 按需引入
 import element from './plugin/elements.js'
-import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/style.css'
 import axios from 'axios'
 import VueBus from './assets/EventBus/bus.js'

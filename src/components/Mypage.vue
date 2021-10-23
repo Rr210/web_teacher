@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-23 11:23:24
+ * @LastEditTime: 2021-10-23 17:35:29
  * @LastEditors: Harry
 -->
 <template>
@@ -133,6 +133,7 @@ export default {
     handleChange(e) {
       let class_name = e[1];
       this.isSelectedClass = false;
+      this.formData.teacher_lists = []
       if (e) return this.getTeacher(class_name);
     },
     // 提交表单
