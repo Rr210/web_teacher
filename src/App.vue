@@ -4,13 +4,20 @@
       <Mypage @layout="getIstoken"></Mypage>
     </div>
     <div v-else>
-      <h3 style="text-align: center; padding: 20px">
+      <h3 style="text-align: center; padding: 20px; margin-top: 40px">
         山西中医药大学2021-2022学生评教
       </h3>
       <div class="success_w">
-        <el-empty :image-size="212" description="您已提交成功，请勿重复提交！！"></el-empty>
-        <el-card>{{ token.time | timeChange }}</el-card>
+        <el-empty
+          :image="image"
+          :image-size="212"
+          description="您已提交成功，请勿重复提交！！"
+        ></el-empty>
+        <el-card :body-style="bodyStyle" shadow="nerver">{{
+          token.time | timeChange
+        }}</el-card>
         <!-- <el-button @click="clearI" type="primary">清除缓冲</el-button> -->
+        <!-- <Foot></Foot> -->
       </div>
     </div>
   </div>
@@ -18,12 +25,18 @@
 
 <script>
 import Mypage from "./components/Mypage.vue";
+// import Foot from "./components/Foot.vue";
 export default {
   name: "App",
   data() {
     return {
       isToken: true,
       token: {},
+      image: "",
+      bodyStyle: {
+        backgroundColor: "#F2F6FC",
+      },
+      // image/xy.png
     };
   },
   components: { Mypage },
@@ -31,7 +44,7 @@ export default {
     this.$on("layout", this.getIstoken);
   },
   mounted() {
-    this.getTimeCache()
+    this.getTimeCache();
     this.initPage();
   },
   filters: {
@@ -58,7 +71,7 @@ export default {
       let token = localStorage.getItem("token");
       let newtime = new Date().getTime();
       // 缓冲时间30天
-        let sub = token && Math.abs(newtime - JSON.parse(token).time);
+      let sub = token && Math.abs(newtime - JSON.parse(token).time);
       if (token && sub < 2629800000) {
         this.isToken = false;
         // console.log(token.time);
@@ -71,7 +84,7 @@ export default {
     // 卸载页面
     getIstoken(e) {
       this.isToken = e.isToken;
-      this.getTimeCache()
+      this.getTimeCache();
     },
     clearI() {
       localStorage.clear();
@@ -95,10 +108,10 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .success_w {
   position: absolute;
-  top: 50%;
+  top: 44%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #ccc;

@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 22:36:48
+ * @LastEditTime: 2021-10-23 11:23:24
  * @LastEditors: Harry
 -->
 <template>
@@ -113,21 +113,17 @@ export default {
     // 监听用户点击选项事件
     handleOption(e) {
       // console.log(e);
-      const { result_options, teacher_id } = e;
+      const { result_options, teacher_id, teacher_name } = e;
       // console.log(e);
       let lists = this.formData.teacher_lists;
       let state = lists.find((v) => v["teacher_id"] == teacher_id);
-      if (!state) return lists.push({ result_options, teacher_id });
+      if (!state)
+        return lists.push({ result_options, teacher_id, teacher_name });
       // console.log(state);
       for (let i in lists) {
         if (lists[i]["teacher_id"] == teacher_id)
           return (lists[i]["result_options"] = result_options);
       }
-      // lists.forEach((v, i) => {
-      //   if (v["teacher_id"] == teacher_id) {
-      //     lists[i]["result_options"] = result_options;
-      //   }
-      // });
     },
     // 请求数据
     async getClassList() {
@@ -167,20 +163,21 @@ export default {
         result: this.formData.teacher_lists,
       };
       // http://localhost:3002/api/
-      const { data: res } = await this.$http
-        .post(SUBMIT_POST, data)
-        .then((res) => res)
-        .catch((err) => err);
-      if (res && res.code == "1") {
-        this.$message.success(res.message);
-        let token = {
-          time: new Date().getTime(),
-          message: this.guid(),
-        };
-        localStorage.setItem("token", JSON.stringify(token));
-        this.$emit("layout", { istoken: false });
-      }else{
-        this.$message.error("提交错误,请联系管理员修复")
+      try {
+        const { data: res } = await this.$http.post(SUBMIT_POST, data);
+        // console.log(res);
+        if (res && res.code == "1") {
+          this.$message.success(res.message);
+          let token = {
+            time: new Date().getTime(),
+            message: this.guid(),
+          };
+          localStorage.setItem("token", JSON.stringify(token));
+          this.$emit("layout", { istoken: false });
+        }
+      } catch (error) {
+        this.$message.error("提交错误,请联系管理员修复");
+        console.error(error);
       }
     },
     // 获取唯一id
@@ -225,12 +222,13 @@ export default {
 };
 </script>
 
-<style>
-/* a{
-  color: #004946;
-} */
+<style lang="less" scoped>
 .remind_w {
   font-size: 13px;
   color: red;
 }
-</style>
+
+.el-card {
+  box-shadow: 0 0 2px rgba(245, 240, 240, 0.7) !important;
+}
+</style>>

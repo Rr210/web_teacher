@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 22:34:50
+ * @LastEditTime: 2021-10-23 11:09:42
  * @LastEditors: Harry
 -->
 <template>
@@ -82,13 +82,6 @@ export default {
   data() {
     return {
       percentage: 0,
-      customColors: [
-        { color: "#f56c6c", percentage: 20 },
-        { color: "#e6a23c", percentage: 40 },
-        { color: "#5cb87a", percentage: 60 },
-        { color: "#1989fa", percentage: 80 },
-        { color: "#6f7ad3", percentage: 100 },
-      ],
       radio: "",
       newarr: [],
     };
@@ -98,7 +91,7 @@ export default {
     this.$on("options_t", this.getOption);
   },
   mounted() {
-    this.newarr = new Array(9).fill(0);
+    this.newarr = new Array(this.title_lists.length).fill(0);
   },
   beforeUpdate() {},
   methods: {
@@ -111,6 +104,7 @@ export default {
         let data = {
           teacher_id: tid,
           result_options: this.newarr.join(""),
+          teacher_name: this.teacher_name,
         };
         this.$emit("optionresult", data);
       }
@@ -172,5 +166,4 @@ export default {
   touch-action: pan-y !important;
   height: 100%;
 }
-
 </style>
