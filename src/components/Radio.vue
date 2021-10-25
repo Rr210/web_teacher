@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 20:48:47
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-22 11:17:37
+ * @LastEditTime: 2021-10-25 17:21:45
  * @LastEditors: Harry
 -->
 <template>
@@ -35,21 +35,21 @@ export default {
       radio: "",
     };
   },
-  mounted(){},
-  emits: ['options_t'],
+  mounted() {},
+  emits: ["options_t"],
   methods: {
     getOption(e) {
       let data = {
-        tid:this.tid,
-        tindex:this.tindex,
+        tid: this.tid,
+        tindex: this.tindex,
         option: e,
       };
       this.$emit("options_t", data);
     },
   },
-  beforeUpdate(){
+  beforeUpdate() {
     // this.radio = ''
-  }
+  },
 };
 </script>
 
@@ -60,7 +60,10 @@ export default {
 .el-radio-group {
   padding: 20px 0;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+}
+.el-radio {
+  margin-right: 0 !important;
 }
 </style>
