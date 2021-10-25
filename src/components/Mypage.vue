@@ -4,15 +4,19 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-23 17:35:29
+ * @LastEditTime: 2021-10-25 16:59:54
  * @LastEditors: Harry
 -->
 <template>
   <div>
-    <h3 style="text-align: center; padding: 20px">
-      山西中医药大学2021-2022学生评教
-    </h3>
     <el-card>
+      <h4><span style="color: red">*</span>告知</h4>
+      <div class="content_w">
+        <div>同学们:</div>
+        <div style="text-indent: 2rem">
+          你们好，欢迎你们使用“山西中医药大学学生评教系统”，学生评教旨在从学生的角度了解教师教学质量情况，学生评教采用无记名的方式，请如实对你的代课教师进行评价。谢谢合作!
+        </div>
+      </div>
       <el-form ref="formRef" :rules="rules" :model="formData" label-width="0px">
         <el-form-item prop="class_id">
           <h3><span style="color: red">*</span>选择年级/班级</h3>
@@ -28,7 +32,9 @@
           <el-form-item prop="teacher_lists" v-model="formData.teacher_lists">
             <h3>
               <span style="color: red">*</span>开始评分<span class="remind_w"
-                >(共{{ 9 * teacher_lists.length }}道,左滑切换题目)</span
+                >(共{{ this.teacher_lists.length }}位老师,共{{
+                  this.teacher_lists.length * 9
+                }}道,<em style="color:#000">左滑</em>切换题目)</span
               >
             </h3>
             <Teacher
@@ -133,7 +139,7 @@ export default {
     handleChange(e) {
       let class_name = e[1];
       this.isSelectedClass = false;
-      this.formData.teacher_lists = []
+      this.formData.teacher_lists = [];
       if (e) return this.getTeacher(class_name);
     },
     // 提交表单
@@ -224,6 +230,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.content_w {
+  font-size: 15px;
+  padding: 10px 5px;
+  // color:#606266;
+}
 .remind_w {
   font-size: 13px;
   color: red;
