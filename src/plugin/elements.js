@@ -4,7 +4,7 @@
  * @Date: 2021-09-22 21:36:25
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 17:09:37
+ * @LastEditTime: 2021-10-26 10:57:43
  * @LastEditors: Harry
  */
 // 导入自己需要的组件
@@ -23,7 +23,6 @@ import {
   FormItem,
   Button,
   Message,
-  Notification,
   Empty
 } from 'element-ui'
 const element = {
@@ -42,7 +41,7 @@ const element = {
     Vue.use(Button)
   },
   other: {
-    Message, MessageBox,Notification,Loading
+    Message, MessageBox,Loading
   }
 }
 export default element

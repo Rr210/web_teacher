@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 // element-ui 全局配置
 Vue.prototype.$message = element.other.Message
 Vue.prototype.$confirm = element.other.MessageBox.confirm
-Vue.prototype.$notify = element.other.Notification
+// Vue.prototype.$notify = element.other.Notification
 Vue.prototype.$loading = element.other.Loading.service
 Vue.use(element)
 Vue.use(VueBus)
