@@ -16,7 +16,7 @@
         <el-card :body-style="bodyStyle" shadow="nerver">{{
           token.time | timeChange
         }}</el-card>
-        <el-button @click="clearI" type="primary">清除缓冲</el-button>
+        <!-- <el-button @click="clearI" type="primary">清除缓冲</el-button> -->
         <!-- <Foot></Foot> -->
       </div>
     </div>
