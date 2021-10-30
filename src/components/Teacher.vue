@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-23 11:09:42
+ * @LastEditTime: 2021-10-26 20:21:33
  * @LastEditors: Harry
 -->
 <template>
@@ -136,6 +136,7 @@ export default {
 .teacher_wrap {
   border-bottom: 1px solid #ccc;
   position: relative;
+  margin: 10px 0 20px 0;
   .progress_w {
     position: absolute;
     top: 0;

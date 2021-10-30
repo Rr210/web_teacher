@@ -24,8 +24,10 @@
 </template>
 
 <script>
+import urlLink from "./assets/config/index.js";
 import Mypage from "./components/Mypage.vue";
 // import Foot from "./components/Foot.vue";
+let { CACHE_TIME } = urlLink;  // 缓冲时间
 export default {
   name: "App",
   data() {
@@ -72,7 +74,7 @@ export default {
       let newtime = new Date().getTime();
       // 缓冲时间30天
       let sub = token && Math.abs(newtime - JSON.parse(token).time);
-      if (token && sub < 2629800000) {
+      if (token && sub < CACHE_TIME) {
         this.isToken = false;
         // console.log(token.time);
         this.token = JSON.parse(token);

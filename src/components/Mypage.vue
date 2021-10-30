@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-25 16:59:54
+ * @LastEditTime: 2021-10-26 20:18:56
  * @LastEditors: Harry
 -->
 <template>
@@ -31,11 +31,12 @@
         <div v-if="isSelectedClass">
           <el-form-item prop="teacher_lists" v-model="formData.teacher_lists">
             <h3>
-              <span style="color: red">*</span>开始评分<span class="remind_w"
-                >(共{{ this.teacher_lists.length }}位老师,共{{
-                  this.teacher_lists.length * 9
-                }}道,<em style="color:#000">左滑</em>切换题目)</span
-              >
+              <span style="color: red">*</span>开始评分
+              <div class="remind_w">
+                本班共<em style="color: red">{{ this.teacher_lists.length }}</em
+                >位老师,每位老师<em style="color: red">{{ 9 }}</em
+                >个评价指标,<em style="color: red;text-decoration: underline;">左滑</em>切换
+              </div>
             </h3>
             <Teacher
               v-for="item in teacher_lists"
@@ -233,11 +234,17 @@ export default {
 .content_w {
   font-size: 15px;
   padding: 10px 5px;
+  margin: 5px 0;
+  background-color: #f8f8f8;
+  border-radius: 10px;
   // color:#606266;
 }
 .remind_w {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   font-size: 13px;
-  color: red;
+  // color: red;
 }
 
 .el-card {
