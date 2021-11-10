@@ -4,10 +4,10 @@
  * @Date: 2021-10-20 21:46:45
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-21 16:17:38
+ * @LastEditTime: 2021-10-30 22:02:36
  * @LastEditors: Harry
  */
- module.exports = {
+module.exports = {
   // ...
   publicPath: './',
   // vue.config.js

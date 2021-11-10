@@ -4,15 +4,15 @@
  * @Date: 2021-10-20 20:48:47
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-25 17:21:45
+ * @LastEditTime: 2021-11-10 11:47:44
  * @LastEditors: Harry
 -->
 <template>
   <div class="options" style="text-algin: center">
     <el-radio-group size="small" v-model="radio" @change="getOption">
-      <el-radio :label="1" border>满意</el-radio>
-      <el-radio :label="2" border>基本满意</el-radio>
-      <el-radio :label="3" border>不满意</el-radio>
+        <el-radio :label="1" border>满意</el-radio>
+        <el-radio :label="2" border>基本满意</el-radio>
+        <el-radio :label="3" border>不满意</el-radio>
     </el-radio-group>
   </div>
 </template>
