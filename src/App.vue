@@ -8,13 +8,9 @@
         山西中医药大学2021-2022学生评教
       </h3>
       <div class="success_w">
-        <el-empty
-          :image="image"
-          :image-size="212"
-          description="您已提交成功，请勿重复提交！！"
-        ></el-empty>
+        <el-empty :image="image" :image-size="212" description="您已提交成功，请勿重复提交！！"></el-empty>
         <el-card :body-style="bodyStyle" shadow="nerver">{{
-          token.time | timeChange
+            token.time | timeChange
         }}</el-card>
         <el-button @click="clearI" type="primary">清除缓冲</el-button>
         <!-- <Foot></Foot> -->
@@ -105,7 +101,7 @@ export default {
     //     duration: 8000,
     //   });
     // },
-    success_w() {},
+    success_w() { },
   },
 };
 </script>

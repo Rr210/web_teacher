@@ -97,3 +97,20 @@ body {
   left: 50%;
   transform: translate(-50%,-50%);
 }
+
+.item_active {
+  position: fixed;
+  top: 20px;
+  left: 5vw;
+  width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 0 10px 0 #ccc;
+}
+.item_active .el-collapse-item__header {
+  position: fixed;
+  width: 90vw;
+  background-color: #bdc3d3;
+  box-shadow: 0 3px 10px #ccc;
+  z-index: 9999;
+}

@@ -4,8 +4,8 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2021-10-26 20:18:56
- * @LastEditors: Harry
+ * @LastEditTime: 2022-05-27 23:44:07
+ * @LastEditors: harry
 -->
 <template>
   <div>
@@ -20,42 +20,51 @@
       <el-form ref="formRef" :rules="rules" :model="formData" label-width="0px">
         <el-form-item prop="class_id">
           <h3><span style="color: red">*</span>选择年级/班级</h3>
-          <el-cascader
-            v-model="formData.class_id"
-            :options="options"
-            :props="props"
-            @change="handleChange"
-          >
+          <el-cascader v-model="formData.class_id" :options="options" :props="props" @change="handleChange">
           </el-cascader>
         </el-form-item>
+        <div style="margin:10px 0">
+          <el-radio v-model="version_i" label="1">版本一</el-radio>
+          <el-radio v-model="version_i" label="2">版本二</el-radio>
+        </div>
         <div v-if="isSelectedClass">
           <el-form-item prop="teacher_lists" v-model="formData.teacher_lists">
             <h3>
               <span style="color: red">*</span>开始评分
-              <div class="remind_w">
-                本班共<em style="color: red">{{ this.teacher_lists.length }}</em
-                >位老师,每位老师<em style="color: red">{{ 9 }}</em
-                >个评价指标,<em style="color: red;text-decoration: underline;">左滑</em>切换
-              </div>
             </h3>
-            <Teacher
-              v-for="item in teacher_lists"
-              :key="item.teacher"
-              :teacher_name="item.teacher_name"
-              :teacher_id="item.teacher_id"
-              :class_name="item.class_name"
-              :title_lists="title_lists"
-              @optionresult="handleOption"
-            ></Teacher>
+            <div v-if="version_i === '1'">
+              <div class="remind_w">
+                本班共<em style="color: red">{{ this.teacher_lists.length }}</em>位老师,每位老师<em style="color: red">{{ 9
+                }}</em>个评价指标,<em style="color: red;text-decoration: underline;">左滑</em>切换
+              </div>
+              <Teacher v-for="item in teacher_lists" :key="item.teacher" :teacher_name="item.teacher_name"
+                :teacher_id="item.teacher_id" :class_name="item.class_name" :title_lists="title_lists"
+                @optionresult="handleOption" />
+            </div>
+            <div v-else>
+              <div class="remind_w">
+                本班共<em style="color: red">{{ this.teacher_lists.length }}</em>位老师,每位老师<em style="color: red">{{ 9
+                }}</em>个评价指标
+              </div>
+              <el-collapse v-model="CollactiveName" accordion>
+                <el-collapse-item :name="item.teacher_id" v-for="(item, index) in teacher_lists" :key="item.teacher"
+                  :class="CollactiveName == item.teacher_id ? 'item_active' : ''">
+                  <template slot="title">
+                    <span style="font-size:17px">{{ `${(index + 1)}.${item.teacher_name}--` }}</span>
+                    <span>{{
+                        item.class_name
+                    }}</span>
+                  </template>
+                  <new-view :teacher_name="item.teacher_name" :teacher_id="item.teacher_id"
+                    :class_name="item.class_name" :title_lists="title_lists" @optionresult="handleOption"
+                    @changeids="handleChangetindex" />
+                </el-collapse-item>
+              </el-collapse>
+            </div>
           </el-form-item>
         </div>
         <el-empty description="请选择您的年级/班级" v-else></el-empty>
-        <el-button
-          type="primary"
-          @click="onSubmit('formRef')"
-          :disabled="isDisabled"
-          >点击提交</el-button
-        >
+        <el-button type="primary" @click="onSubmit('formRef')" :disabled="isDisabled">点击提交</el-button>
       </el-form>
       <Foot></Foot>
     </el-card>
@@ -66,10 +75,11 @@
 import urlLink from "../assets/config";
 import Teacher from "./Teacher.vue";
 import Foot from "./Foot.vue";
+import NewView from './NewView.vue'
 let { CLASS_LINK, SUBMIT_POST, TITLE_LINK, TEACHER_LINK } = urlLink;
 export default {
   name: "Mypage",
-  components: { Teacher, Foot },
+  components: { Teacher, Foot, NewView },
   data() {
     return {
       isDisabled: false,
@@ -78,12 +88,16 @@ export default {
         children: "class_lists",
         value: "label",
       },
+      version_i: '1',
+      percentage: 0,
+      CollactiveName: '',
       formData: {
         class_id: "",
         teacher_lists: [],
       },
       value: [],
       options: [],
+      t_index: 0,
       teacher_lists: [],
       // 题目列表
       title_lists: [],
@@ -101,6 +115,15 @@ export default {
   created() {
     //创建后监听
     this.$on("optionresult", this.handleOption);
+    this.$on('changeids', this.handleChangetindex)
+  },
+  watch: {
+    CollactiveName(newvalue, oldvalue) {
+      if (newvalue) {
+        const a = this.teacher_lists.findIndex(v => v.teacher_id == newvalue)
+        this.t_index = a
+      }
+    }
   },
   mounted() {
     this.getClassList();
@@ -108,6 +131,9 @@ export default {
     // console.log({ time: new Date().getTime(), message: this.guid() });
   },
   methods: {
+    handleVersion(e) {
+      this.version_i = e
+    },
     // 自定义判断规则
     validList(rule, value, callback) {
       if (value.length < this.teacher_lists.length) {
@@ -130,6 +156,19 @@ export default {
       for (let i in lists) {
         if (lists[i]["teacher_id"] == teacher_id)
           return (lists[i]["result_options"] = result_options);
+      }
+    },
+    handleChangetindex(e) {
+      if (e !== 0) {
+        const a = this.t_index + e
+        if (a >= 0 && a <= this.teacher_lists.length - 1) {
+          this.CollactiveName = this.teacher_lists[a]['teacher_id']
+        } else {
+          console.log('已经是第一个');
+        }
+      } else {
+        console.log(1);
+        this.CollactiveName = ''
       }
     },
     // 请求数据
@@ -239,6 +278,7 @@ export default {
   border-radius: 10px;
   // color:#606266;
 }
+
 .remind_w {
   text-overflow: ellipsis;
   white-space: nowrap;

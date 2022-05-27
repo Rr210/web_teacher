@@ -10,9 +10,9 @@
 <template>
   <div class="options" style="text-algin: center">
     <el-radio-group size="small" v-model="radio" @change="getOption">
-        <el-radio :label="1" border>满意</el-radio>
-        <el-radio :label="2" border>基本满意</el-radio>
-        <el-radio :label="3" border>不满意</el-radio>
+      <el-radio :label="1" border>满意</el-radio>
+      <el-radio :label="2" border>基本满意</el-radio>
+      <el-radio :label="3" border>不满意</el-radio>
     </el-radio-group>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
       radio: "",
     };
   },
-  mounted() {},
+  mounted() { },
   emits: ["options_t"],
   methods: {
     getOption(e) {
@@ -57,12 +57,14 @@ export default {
 .options {
   margin-top: 10px;
 }
+
 .el-radio-group {
   padding: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .el-radio {
   margin-right: 0 !important;
 }

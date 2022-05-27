@@ -1,3 +1,11 @@
+/*
+ * @Author: Harry
+ * @Date: 2021-10-26 11:03:05
+ * @LastEditors: harry
+ * @Github: https://github.com/rr210
+ * @LastEditTime: 2022-05-27 18:12:18
+ * @FilePath: \hello-world\src\plugin\elements.js
+ */
 /***
  * @Description:
  * @Author: Harry
@@ -13,6 +21,8 @@ import {
   Cascader,
   CarouselItem,
   Radio,
+  Collapse,
+  CollapseItem,
   Card,
   Loading,
   Progress,
@@ -35,6 +45,8 @@ const element = {
     Vue.use(Cascader)
     Vue.use(CarouselItem)
     Vue.use(Card)
+    Vue.use(Collapse)
+    Vue.use(CollapseItem)
     Vue.use(Input)
     Vue.use(Form)
     Vue.use(FormItem)
