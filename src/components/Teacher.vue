@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 18:48:57
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-05-27 23:25:08
+ * @LastEditTime: 2022-05-31 00:12:13
  * @LastEditors: harry
 -->
 <template>
@@ -69,7 +69,7 @@ export default {
   },
   emits: ["optionresult"],
   created() {
-    this.$on("options_t", this.getOption);
+    this.$bus.on("options_t", this.getOption);
   },
   mounted() {
     this.newarr = new Array(this.title_lists.length).fill(0);
@@ -99,6 +99,11 @@ export default {
         this.percentage = 0;
       }
     },
+    beforeDestroy() {
+      //销毁监听事件
+      this.$bus.off("options_t", this.getOption);
+    }
+
     // //设置滑动切换轮播图
     // swiperleft: function (index) {
     //   //上一页

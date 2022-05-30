@@ -4,7 +4,7 @@
  * @Date: 2021-10-20 15:02:16
  * @Url: https://u.mr90.top
  * @github: https://github.com/rr210
- * @LastEditTime: 2022-05-27 23:44:07
+ * @LastEditTime: 2022-05-31 00:10:53
  * @LastEditors: harry
 -->
 <template>
@@ -114,8 +114,9 @@ export default {
   emits: ["layout"],
   created() {
     //创建后监听
-    this.$on("optionresult", this.handleOption);
-    this.$on('changeids', this.handleChangetindex)
+    console.log(this);
+    this.$bus.on("optionresult", this.handleOption);
+    this.$bus.on('changeids', this.handleChangetindex)
   },
   watch: {
     CollactiveName(newvalue, oldvalue) {
@@ -263,7 +264,8 @@ export default {
     beforeDestroy(e) {
       // 最好在组件销毁前取消监听
       // console.log(e);
-      this.$off("optionresult", this.handleOption);
+      this.$bus.off("optionresult", this.handleOption);
+      this.$bus.off('changeids', this.handleChangetindex);
     },
   },
 };

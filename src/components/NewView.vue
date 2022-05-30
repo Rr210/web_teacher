@@ -3,7 +3,7 @@
  * @Date: 2022-05-27 18:09:25
  * @LastEditors: harry
  * @Github: https://github.com/rr210
- * @LastEditTime: 2022-05-27 23:41:28
+ * @LastEditTime: 2022-05-31 00:11:52
  * @FilePath: \hello-world\src\components\NewView.vue
 -->
 <template>
@@ -56,7 +56,7 @@ export default {
   },
   emits: ["optionresult", 'changeids'],
   created() {
-    this.$on("options_t", this.getOption);
+    this.$bus.on("options_t", this.getOption);
   },
   methods: {
     getOption(e) {
@@ -70,7 +70,7 @@ export default {
           result_options: this.newarr.join(""),
           teacher_name: this.teacher_name,
         };
-        this.$emit("optionresult", data);
+        this.$bus.emit("optionresult", data);
       }
       this.percentage = ((100 / this.title_lists.length) * len).toFixed(0);
       if (this.percentage > 100) {
@@ -81,11 +81,15 @@ export default {
       }
     },
     changeId(e) {
-      this.$emit('changeids', e)
+      this.$bus.emit('changeids', e)
     }
   },
   mounted() {
 
+  },
+  beforeDestroy() {
+    //销毁监听事件
+    this.$bus.off("options_t", this.getOption);
   }
 }
 </script>
